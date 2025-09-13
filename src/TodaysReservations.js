@@ -6,7 +6,7 @@ function TodaysReservations() {
 
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
-    const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://your-backend.onrender.com';
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://teknolab-backend.onrender.com';
     fetch(`${BACKEND_URL}/reservations/${today}`)
       .then(res => res.json())
       .then(data => {

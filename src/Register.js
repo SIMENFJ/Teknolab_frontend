@@ -13,7 +13,7 @@ function Register() {
     setError('');
     setMessage('');
     try {
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://your-backend.onrender.com';
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://teknolab-backend.onrender.com';
   const res = await fetch(`${BACKEND_URL}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
