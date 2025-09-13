@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import UserReservationDropdown from './UserReservationDropdown';
 // Use environment variable or fallback for backend URL
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://your-backend.onrender.com';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://teknolab-backend.onrender.com';
 
 function Adminpanel({ user }) {
   const [users, setUsers] = useState([]);
