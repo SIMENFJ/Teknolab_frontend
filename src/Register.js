@@ -14,7 +14,7 @@ function Register() {
     setMessage('');
     try {
   const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://teknolab-backend.onrender.com';
-  const res = await fetch(`${BACKEND_URL}/register`, {
+  const res = await fetch(`${BACKEND_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password })

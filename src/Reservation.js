@@ -32,7 +32,7 @@ function Reservation({ user }) {
     if (selectedDate) {
       setLoading(true);
   const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://teknolab-backend.onrender.com';
-      fetch(`${BACKEND_URL}/reservations/${selectedDate}`)
+      fetch(`${BACKEND_URL}/api/reservations?date=${selectedDate}`)
         .then(res => res.json())
         .then(data => {
           setReservations(data);
@@ -45,7 +45,7 @@ function Reservation({ user }) {
     setMessage('');
     setLoading(true);
   const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://teknolab-backend.onrender.com';
-  const res = await fetch(`${BACKEND_URL}/reserve`, {
+  const res = await fetch(`${BACKEND_URL}/api/reservations`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

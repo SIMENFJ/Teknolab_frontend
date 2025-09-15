@@ -9,17 +9,17 @@ function Adminpanel({ user }) {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    fetch(`${BACKEND_URL}/admin/users?adminEmail=${user.email}`)
+    fetch(`${BACKEND_URL}/api/admin/users?adminEmail=${user.email}`)
       .then(res => res.json())
       .then(setUsers);
-    fetch(`${BACKEND_URL}/admin/reservations?adminEmail=${user.email}`)
+    fetch(`${BACKEND_URL}/api/admin/reservations?adminEmail=${user.email}`)
       .then(res => res.json())
       .then(setReservations);
   }, []);
 
   const removeReservation = async (date, slot) => {
     setMessage('');
-  const res = await fetch(`${BACKEND_URL}/admin/remove-reservation`, {
+  const res = await fetch(`${BACKEND_URL}/api/admin/remove-reservation`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ adminEmail: user.email, date, slot })
@@ -35,7 +35,7 @@ function Adminpanel({ user }) {
 
   const removeAccount = async (email) => {
     setMessage('');
-  const res = await fetch(`${BACKEND_URL}/admin/remove-account`, {
+  const res = await fetch(`${BACKEND_URL}/api/admin/remove-account`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ adminEmail: user.email, userEmail: email })
@@ -53,7 +53,7 @@ function Adminpanel({ user }) {
     const newPassword = prompt('Nytt passord for ' + email + ':');
     if (!newPassword) return;
     setMessage('');
-  const res = await fetch(`${BACKEND_URL}/admin/reset-password`, {
+  const res = await fetch(`${BACKEND_URL}/api/admin/reset-password`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ adminEmail: user.email, userEmail: email, newPassword })
@@ -68,7 +68,7 @@ function Adminpanel({ user }) {
 
   const promoteAdmin = async (email) => {
     setMessage('');
-  const res = await fetch(`${BACKEND_URL}/admin/promote`, {
+  const res = await fetch(`${BACKEND_URL}/api/admin/promote`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ adminEmail: user.email, userEmail: email })

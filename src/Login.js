@@ -11,7 +11,7 @@ function Login({ onLogin }) {
     setError('');
     try {
   const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://teknolab-backend.onrender.com';
-  const res = await fetch(`${BACKEND_URL}/login`, {
+  const res = await fetch(`${BACKEND_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
