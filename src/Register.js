@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { supabase } from './supabaseClient';
 
 function Register() {
   const [name, setName] = useState('');
@@ -13,20 +14,25 @@ function Register() {
     setError('');
     setMessage('');
     try {
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://teknolab-backend.onrender.com';
-  const res = await fetch(`${BACKEND_URL}/api/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password })
+      const { error } = await supabase.auth.signUp({
+        email: email,
+        password: password,
+        options: {
+          data: {
+            name: name,
+          }
+        }
       });
-      const data = await res.json();
-      if (data.success) {
-        setMessage('Registrering vellykket! Du kan nå logge inn.');
+
+      if (error) {
+        setError(error.message);
       } else {
-        setError(data.error || 'Registrering feilet.');
+        // By default, Supabase sends a confirmation email.
+        // You can disable this in your project's auth settings if you want users to be logged in immediately.
+        setMessage('Registrering vellykket! Sjekk e-posten din for en bekreftelseslenke.');
       }
-    } catch {
-      setError('Serverfeil. Prøv igjen senere.');
+    } catch (err) {
+      setError('En uventet feil oppstod. Prøv igjen senere.');
     }
   };
 

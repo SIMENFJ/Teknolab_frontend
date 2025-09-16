@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { supabase } from './supabaseClient';
 
 function Login({ onLogin }) {
   const [email, setEmail] = useState('');
@@ -10,19 +11,32 @@ function Login({ onLogin }) {
     e.preventDefault();
     setError('');
     try {
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://teknolab-backend.onrender.com';
-  const res = await fetch(`${BACKEND_URL}/api/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
       });
-      const data = await res.json();
-      if (data.success) {
-        onLogin(data);
-      } else {
-        setError(data.error || 'Innlogging feilet.');
+
+      if (error) {
+        setError(error.message || 'Innlogging feilet.');
+        return;
       }
-    } catch {
+
+      if (data.user) {
+        // The onLogin function expects a specific structure.
+        // We can create a similar structure from the Supabase user object.
+        const userProfile = {
+          success: true,
+          user: {
+            name: data.user.user_metadata.name,
+            email: data.user.email,
+            // You might need to fetch a separate 'profiles' table to get the admin status
+            admin: false, 
+          }
+        };
+        onLogin(userProfile);
+      }
+
+    } catch (err) {
       setError('Serverfeil. Prøv igjen senere.');
     }
   };
